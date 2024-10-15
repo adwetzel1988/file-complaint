@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Complaint Details')
+@section('title', 'Compliment Details')
 
 @section('content')
     <div class="container">
@@ -11,19 +11,17 @@
             </div>
         @endif
 
-        <h1 class="mb-4">Complaint Details</h1>
+        <h1 class="mb-4">Compliment Details</h1>
         <button id="printButton" class="btn btn-secondary mb-3">Print</button>
         <div class="card mb-4">
             <div class="card-body">
-                <h5 class="card-title">Complaint #{{ $complaint->complaint_number }}</h5>
+                <h5 class="card-title">Compliment # <span>{{ $complaint->complaint_number }}</span></h5>
                 <div class="row">
                     <div class="col-md-6">
                         <p class="card-text"><strong>Status:</strong> {{ \Illuminate\Support\Str::headline($complaint->status) }}</p>
-                        <p class="card-text"><strong>Type:</strong> {{ \Illuminate\Support\Str::headline($complaint->complaint_type) }}</p>
-                        @if($complaint->status === 'completed')
+                        @if($complaint->status === 'read')
                             <p class="card-text">
-                                <strong>Outcome:</strong> {{ ucfirst($complaint->outcome ?? 'Not determined') }}</p>
-                            <p class="card-text"><strong>Closed Date:</strong> {{ $complaint->updated_at }}</p>
+                            <p class="card-text"><strong>Read Date:</strong> {{ $complaint->updated_at }}</p>
                         @endif
                         <p class="card-text"><strong>Created By:</strong> {{ $complaint->user->name ?? 'Anonymous' }}</p>
                         <p class="card-text"><strong>Address:</strong> {{ $complaint->user->address ?? '' }}</p>
@@ -34,20 +32,17 @@
                             <p class="card-text"><strong>Assigned to:</strong> {{ $complaint->assignedTo->name }}</p>
                         @endif
                         <p class="card-text"><strong>Description:</strong> {{ $complaint->description }}</p>
-                        <p class="card-text"><strong>Incident Date:</strong> {{ $complaint->incident_date }}</p>
-                        <p class="card-text"><strong>Signed:</strong> {{ !is_null($complaint->signature) ? 'Yes' : 'No' }}</p>
+                        <p class="card-text"><strong>Created at:</strong> {{ $complaint->incident_date }}</p>
                     </div>
                     <div class="col-md-6">
                         <h6 class="">Officer Information</h6>
                         <p class="card-text"><strong>Name:</strong> {{ $complaint->officer->name ?? 'Not Provided' }}</p>
-                        <p class="card-text"><strong>Rank:</strong> {{ $complaint->officer->rank ?? 'Not Provided' }}</p>
                         <p class="card-text"><strong>Division:</strong> {{ $complaint->officer->division ?? 'Not Provided' }}
                         </p>
-                        <p class="card-text"><strong>Badge/ID Number:</strong> {{ $complaint->officer->badge_number ?? 'Not Provided' }}</p>
                     </div>
                 </div>
 
-                <h6>Attachments</h6>
+                <h6 class="mt-3">Attachments</h6>
                 @if($complaint->attachments->count() > 0)
                     <ul class="list-group mb-3">
                         @foreach($complaint->attachments as $attachment)
@@ -58,7 +53,7 @@
                         @endforeach
                     </ul>
                 @else
-                    <p>No attachments for this complaint.</p>
+                    <p>No attachments for this compliment.</p>
                 @endif
             </div>
         </div>
@@ -66,7 +61,7 @@
         @if(auth()->user()->role == "admin" && $complaint->status !== 'completed')
             <div class="card mb-4">
                 <div class="card-body">
-                    <h2 class="card-title mb-3">Assign Complaint</h2>
+                    <h2 class="card-title mb-3">Assign Compliment</h2>
                     <form action="{{ route('admin.complaints.assign', $complaint) }}" method="POST">
                         @csrf
                         <div class="mb-3">
@@ -80,13 +75,13 @@
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Assign Complaint</button>
+                        <button type="submit" class="btn btn-primary">Assign Compliment</button>
                     </form>
                 </div>
             </div>
         @endif
 
-        @if($complaint->status !== 'completed')
+        @if($complaint->status !== 'read')
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title mb-3">Update Status</h2>
@@ -96,49 +91,13 @@
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
                                 <select class="form-control" id="status" name="status" required {{ $complaint->status === 'completed' ? 'disabled' : '' }}>
-                                    <option value="pending" {{ $complaint->status === 'pending' ? 'selected' : '' }}>Pending
-                                    </option>
-                                    <option value="in_progress" {{ $complaint->status === 'in_progress' ? 'selected' : '' }}>In
-                                        Progress
-                                    </option>
-                                    <option value="submitted" {{ $complaint->status === 'submitted' ? 'selected' : '' }}>Submitted
-                                    </option>
-                                    <option value="under_review" {{ $complaint->status === 'under_review' ? 'selected' : '' }}>
-                                        Under Review
-                                    </option>
-                                    <option value="completed" {{ $complaint->status === 'completed' ? 'selected' : '' }}>
-                                        Completed
-                                    </option>
+                                    <option value="read" {{ $complaint->status === 'read' ? 'selected' : '' }}>Read</option>
+                                    <option value="unread" {{ $complaint->status === 'unread' ? 'selected' : '' }}>Unread</option>
                                 </select>
                             </div>
-                            @if($complaint->status === 'completed')
-                                <div class="mb-3" id="outcomeField">
-                                    <label for="outcome" class="form-label">Outcome</label>
-                                    <select class="form-control" id="outcome" name="outcome">
-                                        <option value="founded" {{ $complaint->outcome === 'founded' ? 'selected' : '' }}>
-                                            Founded
-                                        </option>
-                                        <option value="unfounded" {{ $complaint->outcome === 'unfounded' ? 'selected' : '' }}>
-                                            Unfounded
-                                        </option>
-                                        <option value="exonerated" {{ $complaint->outcome === 'exonerated' ? 'selected' : '' }}>
-                                            Exonerated
-                                        </option>
-                                        <option value="not_sustained" {{ $complaint->outcome === 'not_sustained' ? 'selected' : '' }}>
-                                            Not Sustained
-                                        </option>
-                                        <option value="sustained" {{ $complaint->outcome === 'sustained' ? 'selected' : '' }}>
-                                            Sustained
-                                        </option>
-                                        <option value="other_sustained_misconduct" {{ $complaint->outcome === 'other_sustained_misconduct' ? 'selected' : '' }}>
-                                            Other Sustained Misconduct
-                                        </option>
-                                    </select>
-                                </div>
-                            @endif
-                                <button type="submit" class="btn btn-primary">
-                                    Update Status
-                                </button>
+                            <button type="submit" class="btn btn-primary">
+                                Update Status
+                            </button>
                         </form>
                 </div>
             </div>
@@ -219,55 +178,21 @@
 
     function updateFields() {
       var status = statusSelect.value;
-      var outcomeField = document.getElementById('outcomeField');
       var actionTakenField = document.getElementById('actionTakenField');
 
-      if (status === 'completed') {
-        if (!outcomeField) {
-          outcomeField = document.createElement('div');
-          outcomeField.className = 'mb-3';
-          outcomeField.id = 'outcomeField';
-          outcomeField.innerHTML = `
-                    <label for="outcome" class="form-label">Outcome</label>
-                    <select class="form-control" id="outcome" name="outcome">
-                        <option value="founded">Founded</option>
-                        <option value="unfounded">Unfounded</option>
-                        <option value="exonerated">Exonerated</option>
-                        <option value="not_sustained">Not Sustained</option>
-                        <option value="sustained">Sustained</option>
-                        <option value="other_sustained_misconduct">Other Sustained Misconduct</option>
-                    </select>
-                `;
-          form.insertBefore(outcomeField, form.querySelector('button'));
-        }
-
-        var outcomeSelect = document.getElementById('outcome');
-        outcomeSelect.addEventListener('change', function () {
-          if (this.value.toLowerCase() === 'founded') {
-            if (!actionTakenField) {
-              actionTakenField = document.createElement('div');
-              actionTakenField.className = 'mb-3';
-              actionTakenField.id = 'actionTakenField';
-              actionTakenField.innerHTML = `
+      if (status === 'read') {
+        if (!actionTakenField) {
+          actionTakenField = document.createElement('div');
+          actionTakenField.className = 'mb-3';
+          actionTakenField.id = 'actionTakenField';
+          actionTakenField.innerHTML = `
                             <label for="action_taken" class="form-label">Action Taken</label>
                             <textarea class="form-control" id="action_taken" name="action_taken" rows="3"></textarea>
                         `;
-              form.insertBefore(actionTakenField, form.querySelector('button'));
-            }
-          } else {
-            if (actionTakenField) {
-              actionTakenField.remove();
-              actionTakenField = null;
-            }
-          }
-        });
-
-        // Trigger the change event to set initial state
-        outcomeSelect.dispatchEvent(new Event('change'));
-      } else {
-        if (outcomeField) {
-          outcomeField.remove();
+          form.insertBefore(actionTakenField, form.querySelector('button'));
         }
+
+      } else {
         if (actionTakenField) {
           actionTakenField.remove();
         }

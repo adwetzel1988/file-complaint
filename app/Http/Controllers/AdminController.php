@@ -19,10 +19,8 @@ class AdminController extends Controller
         $complaints = Complaint::all();
         $stats = [
             'total' => $complaints->count(),
-            'pending' => $complaints->where('status', 'pending')->count(),
-            'in_progress' => $complaints->where('status', 'in_progress')->count(),
-            'submitted' => $complaints->where('status', 'submitted')->count(),
-            'completed' => $complaints->where('status', 'completed')->count(),
+            'read' => $complaints->where('status', 'read')->count(),
+            'unread' => $complaints->where('status', 'unread')->count(),
         ];
 
         $latestMessages = Message::latest()->take(5)->get();
@@ -74,9 +72,8 @@ class AdminController extends Controller
     public function updateStatus(Request $request, Complaint $complaint)
     {
         $validatedData = $request->validate([
-            'status' => 'required|in:pending,in_progress,submitted,under_review,completed',
-            'outcome' => 'required_if:status,completed|in:founded,unfounded,exonerated,not_sustained,sustained,other_sustained_misconduct',
-            'action_taken' => 'required_if:outcome,founded|nullable|string|max:1000',
+            'status' => 'required|in:read,unread',
+            'action_taken' => 'required_if:status,read|nullable|string|max:1000',
         ]);
 
         if ($complaint->status === 'completed') {

@@ -36,9 +36,9 @@ class NewComplaintSubmitted extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('A new complaint has been submitted.')
-                    ->line('Please click the button below to view the complaint.')
-                    ->action('View Complaint', route('complaints.show', $this->complaint->id));
+                    ->line('A new compliment has been submitted.')
+                    ->line('Please click the button below to view the compliment.')
+                    ->action('View Compliment', route('complaints.show', $this->complaint->id));
     }
 
     /**

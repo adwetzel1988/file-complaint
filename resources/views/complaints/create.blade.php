@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'File a Complaint')
+@section('title', 'File a Compliment')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <h1 class="mb-4">File a Complaint</h1>
+            <h1 class="mb-4">File a Compliment</h1>
             <form action="{{ route('complaints.store') }}" method="POST" enctype="multipart/form-data" id="complaintForm">
                 @csrf
                 <input type="hidden" name="anonymous" value="1">
@@ -77,34 +77,9 @@
 
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">Complaint Details</h5>
+                        <h5 class="card-title">Compliment Details</h5>
                         <div class="mb-3">
-                            <label class="form-label">Complaint Type</label>
-                            <div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="use_of_force" value="Use of Force" required>
-                                    <label class="form-check-label" for="use_of_force">Use of Force</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="unprofessional" value="Unprofessional" required>
-                                    <label class="form-check-label" for="unprofessional">Unprofessional</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="racial_profiling" value="Racial Profiling" required>
-                                    <label class="form-check-label" for="racial_profiling">Racial Profiling</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="others" value="Others" required>
-                                    <label class="form-check-label" for="others">Others</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3" id="custom_type_div" style="display: none;">
-                            <label for="custom_type" class="form-label">Custom Type</label>
-                            <input type="text" class="form-control" id="custom_type" name="custom_type">
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Complaint Description</label>
+                            <label for="description" class="form-label">Compliment Description</label>
                             <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
                         </div>
                         <div class="mb-3">
@@ -124,43 +99,9 @@
                             <input type="text" class="form-control" id="officer_name" name="officer_name">
                         </div>
                         <div class="mb-3">
-                            <label for="officer_rank" class="form-label">Officer Rank</label>
-                            <input type="text" class="form-control" id="officer_rank" name="officer_rank">
-                        </div>
-                        <div class="mb-3">
                             <label for="officer_division" class="form-label">Officer Division</label>
                             <input type="text" class="form-control" id="officer_division" name="officer_division">
                         </div>
-                        <div class="mb-3">
-                            <label for="officer_badge_number" class="form-label">Officer Badge/ID Number</label>
-                            <input type="text" class="form-control" id="officer_badge_number" name="officer_badge_number">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Witness(es) Information</h5>
-                        <div id="witnesses" class="row">
-                            <div class="witness row mb-3">
-                                <div class="witness mb-3 col-md-4">
-                                    <label for="witness_name_0" class="form-label">Witness Name</label>
-                                    <input type="text" class="form-control" id="witness_name_0" name="witnesses[0][name]">
-                                </div>
-                                <div class="witness mb-3 col-md-3">
-                                    <label for="witness_contact_0" class="form-label">Contact Number</label>
-                                    <input type="tel" class="form-control" id="witness_contact_0" name="witnesses[0][contact]">
-                                </div>
-                                <div class="witness mb-3 col-md-3">
-                                    <label for="witness_email_0" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="witness_email_0" name="witnesses[0][email]">
-                                </div>
-                                <div class="col-md-1 d-flex align-items-center justify-content-center">
-                                    <button type="button" class="btn btn-danger delete-witness">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-secondary" id="addWitness">Add Another Witness</button>
                     </div>
                 </div>
 
@@ -174,23 +115,8 @@
                     </div>
                 </div>
 
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Electronic Signature Agreement</h5>
-                        <p>By checking the "I agree" box below, you agree and acknowledge that 1) your application will not be signed in the sense of a traditional paper document, 2) by signing in this alternate manner, you authorize your electronic signature to be valid and binding upon you to the same force and effect as a handwritten signature, and 3) you may still be required to provide a traditional signature at a later date.</p>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="signature_agreement" name="signature_agreement" required>
-                            <label class="form-check-label" for="signature_agreement">I agree</label>
-                        </div>
-                        <div class="mb-3" id="signature_div" style="display: none;">
-                            <label for="signature" class="form-label">Electronic Signature</label>
-                            <input type="text" class="form-control" id="signature" name="signature">
-                        </div>
-                    </div>
-                </div>
-
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg">Submit Complaint</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Submit Compliment</button>
                 </div>
             </form>
         </div>
@@ -254,60 +180,6 @@
         // Form will submit normally if all validations pass
     });
     @endguest
-
-    let witnessIndex = 1;
-    document.getElementById('addWitness').addEventListener('click', function() {
-      const witnessesDiv = document.getElementById('witnesses');
-      const newWitnessDiv = document.createElement('div');
-      newWitnessDiv.classList.add('witness', 'row', 'mb-3');
-      newWitnessDiv.innerHTML = `
-                <div class="col-md-4">
-                    <label for="witness_name_${witnessIndex}" class="form-label">Witness Name</label>
-                    <input type="text" class="form-control" id="witness_name_${witnessIndex}" name="witnesses[${witnessIndex}][name]">
-                </div>
-                <div class="col-md-3">
-                    <label for="witness_contact_${witnessIndex}" class="form-label">Contact Number</label>
-                    <input type="tel" class="form-control" id="witness_contact_${witnessIndex}" name="witnesses[${witnessIndex}][contact]">
-                </div>
-                <div class="col-md-3">
-                    <label for="witness_email_${witnessIndex}" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="witness_email_${witnessIndex}" name="witnesses[${witnessIndex}][email]">
-                </div>
-                <div class="col-md-1 d-flex align-items-center justify-content-center">
-                    <button type="button" class="btn btn-danger delete-witness">Delete</button>
-                </div>
-            `;
-      witnessesDiv.appendChild(newWitnessDiv);
-      witnessIndex++;
-    });
-
-    document.getElementById('witnesses').addEventListener('click', function(event) {
-      if (event.target.classList.contains('delete-witness')) {
-        event.target.closest('.witness').remove();
-      }
-    });
-
-    document.querySelectorAll('input[name="complaint_type"]').forEach(function(radio) {
-      radio.addEventListener('change', function() {
-        var customTypeDiv = document.getElementById('custom_type_div');
-        if (this.value === 'Others') {
-          customTypeDiv.style.display = 'block';
-        } else {
-          customTypeDiv.style.display = 'none';
-          document.getElementById('custom_type').value = ''; // Clear the custom type input
-        }
-      });
-    });
-
-    document.getElementById('signature_agreement').addEventListener('change', function() {
-      var signatureDiv = document.getElementById('signature_div');
-      if (this.checked) {
-        signatureDiv.style.display = 'block';
-      } else {
-        signatureDiv.style.display = 'none';
-        document.getElementById('signature').value = ''; // Clear the signature input
-      }
-    });
 </script>
 @endsection
 

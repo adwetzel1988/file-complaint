@@ -12,61 +12,39 @@
 
     <h1>Admin Dashboard</h1>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <a href="{{ route('admin.complaints.index') }}" class="card-link">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Total Complaints</h5>
+                        <h5 class="card-title">Total Compliments</h5>
                         <p class="card-text">{{ $stats['total'] }}</p>
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-md-3">
-            <a href="{{ route('admin.complaints.index', ['status' => 'pending']) }}" class="card-link">
+        <div class="col-md-4">
+            <a href="{{ route('admin.complaints.index', ['status' => 'read']) }}" class="card-link">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Pending Complaints</h5>
-                        <p class="card-text">{{ $stats['pending'] }}</p>
+                        <h5 class="card-title">Read Compliments</h5>
+                        <p class="card-text">{{ $stats['read'] }}</p>
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-md-3">
-            <a href="{{ route('admin.complaints.index', ['status' => 'in_progress']) }}" class="card-link">
+        <div class="col-md-4">
+            <a href="{{ route('admin.complaints.index', ['status' => 'unread']) }}" class="card-link">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">In Progress Complaints</h5>
-                        <p class="card-text">{{ $stats['in_progress'] }}</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-3">
-            <a href="{{ route('admin.complaints.index', ['status' => 'submitted']) }}" class="card-link">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Submitted Complaints</h5>
-                        <p class="card-text">{{ $stats['submitted'] }}</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-md-3">
-            <a href="{{ route('admin.complaints.index', ['status' => 'completed']) }}" class="card-link">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Completed Complaints</h5>
-                        <p class="card-text">{{ $stats['completed'] }}</p>
+                        <h5 class="card-title">Unread Compliments</h5>
+                        <p class="card-text">{{ $stats['unread'] }}</p>
                     </div>
                 </div>
             </a>
         </div>
     </div>
     <div class="mt-4">
-        <a href="{{ route('admin.complaints.index') }}" class="btn btn-primary">View All Complaints</a>
+        <a href="{{ route('admin.complaints.index') }}" class="btn btn-primary">View All Compliments</a>
     </div>
 
     <div class="mt-4">

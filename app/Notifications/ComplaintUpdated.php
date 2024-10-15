@@ -23,11 +23,11 @@ class ComplaintUpdated extends Notification
 
     public function toMail($notifiable)
     {
-        $status = $this->complaint->status === 'completed' ? 'closed' : $this->complaint->status;
+        $status = $this->complaint->status === 'read' ? 'closed' : $this->complaint->status;
 
         return (new MailMessage)
-            ->line('The status of your complaint has been updated to: ' . strtoupper($status) . '.')
-            ->line('Please click the button below to view the updated complaint.')
-            ->action('View Complaint', route('complaints.show', $this->complaint));
+            ->line('The status of your compliment has been updated to: ' . strtoupper($status) . '.')
+            ->line('Please click the button below to view the updated compliment.')
+            ->action('View Compliment', route('complaints.show', $this->complaint));
     }
 }

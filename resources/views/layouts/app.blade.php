@@ -26,7 +26,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">File Complaint</a>
+            <a class="navbar-brand" href="{{ url('/') }}">File Compliment</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,23 +34,23 @@
                 <ul class="navbar-nav ml-auto">
                     @if(auth()->check() && auth()->user()->role !== 'admin' && auth()->user()->role !== 'subadmin')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('complaints.create') }}">File a Complaint</a>
+                            <a class="nav-link" href="{{ route('complaints.create') }}">File a Compliment</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('complaints.index') }}">My Complaints</a>
+                            <a class="nav-link" href="{{ route('complaints.index') }}">My Compliments</a>
                         </li>
                     @endif
                     @auth
                         @if(auth()->check() && auth()->user()->role === 'admin')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.complaints.index') }}">All Complaints</a>
+                                <a class="nav-link" href="{{ route('admin.complaints.index') }}">All Compliments</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
                             </li>
                         @elseif(auth()->user()->role === 'subadmin')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.complaints.index') }}">Assigned Complaints</a>
+                                <a class="nav-link" href="{{ route('admin.complaints.index') }}">Assigned Compliments</a>
                             </li>
                         @endif
                         <li class="nav-item">
@@ -61,7 +61,7 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('complaints.search') }}">Search Complaints</a>
+                            <a class="nav-link" href="{{ route('complaints.search') }}">Search Compliments</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">Login</a>

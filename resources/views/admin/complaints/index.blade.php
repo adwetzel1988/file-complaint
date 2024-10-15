@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>{{ auth()->user()->role === 'admin' ? 'All Complaints' : (auth()->user()->role === 'subadmin' ? 'My Assigned Complaints' : 'Default Title') }}</h1>
+    <h1>{{ auth()->user()->role === 'admin' ? 'All Compliments' : (auth()->user()->role === 'subadmin' ? 'My Assigned Compliments' : 'Default Title') }}</h1>
 
     <!-- Custom CSS for spacing and search alignment -->
     <style>
@@ -39,22 +39,21 @@
         <label for="status">Filter by Status:</label>
         <select id="status" name="status" class="form-control">
             <option value="">All</option>
-            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-            <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+            <option value="pending" {{ request('status') == 'read' ? 'selected' : '' }}>Read</option>
+            <option value="in_progress" {{ request('status') == 'unread' ? 'selected' : '' }}>Unread</option>
         </select>
     </div>
 
     <table class="table" id="complaintsTable">
         <thead>
             <tr>
-                <th>Complaint Number</th>
+                <th>Compliment #</th>
                 <th>Created by</th>
                 <th>Officer</th>
                 <th>Status</th>
                 <th>Outcome</th>
                 <th>Created at</th>
-                <th>Closed Date</th>
+                <th>Read Date</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -74,7 +73,7 @@
                     </td>
                     <td>{{ $complaint->created_at }}</td>
                     <td>
-                        @if($complaint->status === 'completed')
+                        @if($complaint->status === 'read')
                             {{ $complaint->updated_at }}
                         @else
                             N/A
