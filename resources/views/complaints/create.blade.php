@@ -94,6 +94,26 @@
                                     <label class="form-check-label" for="racial_profiling">Racial Profiling</label>
                                 </div>
                                 <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="demeanor" value="Demeanor" required>
+                                    <label class="form-check-label" for="demeanor">Demeanor</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="differential_treatment" value="Differential Treatment" required>
+                                    <label class="form-check-label" for="differential_treatment">Differential Treatment</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="improper_search" value="Improper Search" required>
+                                    <label class="form-check-label" for="improper_search">Improper Search</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="improper_entry" value="Improper Entry" required>
+                                    <label class="form-check-label" for="improper_entry">Improper Entry</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="improper_arrest" value="Improper Arrest" required>
+                                    <label class="form-check-label" for="improper_arrest">Improper Arrest</label>
+                                </div>
+                                <div class="form-check">
                                     <input class="form-check-input" type="radio" name="complaint_type" id="others" value="Others" required>
                                     <label class="form-check-label" for="others">Others</label>
                                 </div>
@@ -113,12 +133,8 @@
                                 <input type="datetime-local" class="form-control" id="incident_date" name="incident_date" required>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Officer Information</h5>
+                        <h5 class="card-title mt-4">Officer Information</h5>
                         <div class="mb-3">
                             <label for="officer_name" class="form-label">Officer Name</label>
                             <input type="text" class="form-control" id="officer_name" name="officer_name">
