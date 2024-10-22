@@ -48,6 +48,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">Register</a>
+                            </li>
                         @elseif(auth()->user()->role === 'subadmin')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.complaints.index') }}">Assigned Complaints</a>
@@ -65,9 +68,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Register</a>
                         </li>
                     @endauth
                 </ul>

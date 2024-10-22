@@ -25,7 +25,11 @@
                                 <strong>Outcome:</strong> {{ ucfirst($complaint->outcome ?? 'Not determined') }}</p>
                             <p class="card-text"><strong>Closed Date:</strong> {{ $complaint->updated_at }}</p>
                         @endif
-                        <p class="card-text"><strong>Created By:</strong> {{ $complaint->user->name ?? 'Anonymous' }}</p>
+                        @if(str_contains($complaint->user->role, 'admin'))
+                            <p class="card-text"><strong>Created by Admin:</strong> {{ $complaint->user->name }}</p>
+                        @else
+                            <p class="card-text"><strong>Created by:</strong> {{ $complaint->user->name ?? 'Anonymous' }}</p>
+                        @endif
                         <p class="card-text"><strong>Address:</strong> {{ $complaint->user->address ?? '' }}</p>
                         <p class="card-text"><strong>City:</strong> {{ $complaint->user->city ?? '' }}</p>
                         <p class="card-text"><strong>State:</strong> {{ $complaint->user->state ?? '' }}</p>
