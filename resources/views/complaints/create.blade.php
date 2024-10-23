@@ -16,7 +16,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Anonymity</h5>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="anonymousCheckbox" name="anonymous" value="0" checked>
+                                <input class="form-check-input" type="checkbox" id="anonymousCheckbox" name="anonymous" value="0" {{ old('anonymous') == '0' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="anonymousCheckbox">File Anonymously</label>
                             </div>
                         </div>
@@ -28,19 +28,19 @@
                                 <h5 class="card-title">Personal Information</h5>
                                 <div class="mb-3">
                                     <label for="first_name" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="first_name" name="first_name">
+                                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="last_name" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name">
+                                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone Number</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone">
+                                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="email" name="email">
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
@@ -56,19 +56,19 @@
                                 <h5 class="card-title">Address Information</h5>
                                 <div class="mb-3">
                                     <label for="address" class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address">
+                                    <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="city" class="form-label">City</label>
-                                    <input type="text" class="form-control" id="city" name="city">
+                                    <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="state" class="form-label">State</label>
-                                    <input type="text" class="form-control" id="state" name="state">
+                                    <input type="text" class="form-control" id="state" name="state" value="{{ old('state') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="zip" class="form-label">Zip Code</label>
-                                    <input type="text" class="form-control" id="zip" name="zip">
+                                    <input type="text" class="form-control" id="zip" name="zip" value="{{ old('zip') }}">
                                 </div>
                             </div>
                         </div>
@@ -79,77 +79,90 @@
                     <div class="card-body">
                         <h5 class="card-title">Complaint Details</h5>
                         <div class="mb-3">
+                            <div class="mb-3">
+                                <label for="filing_person" class="form-label">Who is filing the complaint?</label>
+                                <select class="form-select" id="filing_person" name="filing_person" required>
+                                    <option value="officer" {{ old('filing_person') == 'officer' ? 'selected' : '' }}>Officer</option>
+                                    <option value="resident" {{ old('filing_person') == 'resident' ? 'selected' : '' }}>Resident</option>
+                                    <option value="other" {{ old('filing_person') == 'other' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3" id="custom_filing_person_div" style="display: none;">
+                                <label for="custom_filing_person" class="form-label">Please specify</label>
+                                <input type="text" class="form-control" id="custom_filing_person" name="custom_filing_person" value="{{ old('custom_filing_person') }}">
+                            </div>
+
                             <label class="form-label">Complaint Type</label>
                             <div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="use_of_force" value="Use of Force" required>
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="use_of_force" value="Use of Force" {{ old('complaint_type') == 'Use of Force' ? 'checked' : '' }} required>
                                     <label class="form-check-label" for="use_of_force">Use of Force</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="unprofessional" value="Unprofessional" required>
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="unprofessional" value="Unprofessional" {{ old('complaint_type') == 'Unprofessional' ? 'checked' : '' }} required>
                                     <label class="form-check-label" for="unprofessional">Unprofessional</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="racial_profiling" value="Racial Profiling" required>
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="racial_profiling" value="Racial Profiling" {{ old('complaint_type') == 'Racial Profiling' ? 'checked' : '' }} required>
                                     <label class="form-check-label" for="racial_profiling">Racial Profiling</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="demeanor" value="Demeanor" required>
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="demeanor" value="Demeanor" {{ old('complaint_type') == 'Demeanor' ? 'checked' : '' }} required>
                                     <label class="form-check-label" for="demeanor">Demeanor</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="differential_treatment" value="Differential Treatment" required>
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="differential_treatment" value="Differential Treatment" {{ old('complaint_type') == 'Differential Treatment' ? 'checked' : '' }} required>
                                     <label class="form-check-label" for="differential_treatment">Differential Treatment</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="improper_search" value="Improper Search" required>
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="improper_search" value="Improper Search" {{ old('complaint_type') == 'Improper Search' ? 'checked' : '' }} required>
                                     <label class="form-check-label" for="improper_search">Improper Search</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="improper_entry" value="Improper Entry" required>
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="improper_entry" value="Improper Entry" {{ old('complaint_type') == 'Improper Entry' ? 'checked' : '' }} required>
                                     <label class="form-check-label" for="improper_entry">Improper Entry</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="improper_arrest" value="Improper Arrest" required>
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="improper_arrest" value="Improper Arrest" {{ old('complaint_type') == 'Improper Arrest' ? 'checked' : '' }} required>
                                     <label class="form-check-label" for="improper_arrest">Improper Arrest</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="complaint_type" id="others" value="Others" required>
+                                    <input class="form-check-input" type="radio" name="complaint_type" id="others" value="Others" {{ old('complaint_type') == 'Others' ? 'checked' : '' }} required>
                                     <label class="form-check-label" for="others">Others</label>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3" id="custom_type_div" style="display: none;">
                             <label for="custom_type" class="form-label">Custom Type</label>
-                            <input type="text" class="form-control" id="custom_type" name="custom_type">
+                            <input type="text" class="form-control" id="custom_type" name="custom_type" value="{{ old('custom_type') }}">
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Complaint Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="5" required>{{ old('description') }}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="incident_date" class="form-label">Incident Date and Time</label>
                             <div style="max-width: 250px; display: inline-block;">
-                                <input type="datetime-local" class="form-control" id="incident_date" name="incident_date" required>
+                                <input type="datetime-local" class="form-control" id="incident_date" name="incident_date" value="{{ old('incident_date') }}" required>
                             </div>
                         </div>
 
                         <h5 class="card-title mt-4">Officer Information</h5>
                         <div class="mb-3">
                             <label for="officer_name" class="form-label">Officer Name</label>
-                            <input type="text" class="form-control" id="officer_name" name="officer_name">
+                            <input type="text" class="form-control" id="officer_name" name="officer_name" value="{{ old('officer_name') }}">
                         </div>
                         <div class="mb-3">
                             <label for="officer_rank" class="form-label">Officer Rank</label>
-                            <input type="text" class="form-control" id="officer_rank" name="officer_rank">
+                            <input type="text" class="form-control" id="officer_rank" name="officer_rank" value="{{ old('officer_rank') }}">
                         </div>
                         <div class="mb-3">
                             <label for="officer_division" class="form-label">Officer Division</label>
-                            <input type="text" class="form-control" id="officer_division" name="officer_division">
+                            <input type="text" class="form-control" id="officer_division" name="officer_division" value="{{ old('officer_division') }}">
                         </div>
                         <div class="mb-3">
                             <label for="officer_badge_number" class="form-label">Officer Badge/ID Number</label>
-                            <input type="text" class="form-control" id="officer_badge_number" name="officer_badge_number">
+                            <input type="text" class="form-control" id="officer_badge_number" name="officer_badge_number" value="{{ old('officer_badge_number') }}">
                         </div>
                     </div>
                 </div>
@@ -161,15 +174,15 @@
                             <div class="witness row mb-3">
                                 <div class="witness mb-3 col-md-4">
                                     <label for="witness_name_0" class="form-label">Witness Name</label>
-                                    <input type="text" class="form-control" id="witness_name_0" name="witnesses[0][name]">
+                                    <input type="text" class="form-control" id="witness_name_0" name="witnesses[0][name]" value="{{ old('witnesses.0.name') }}">
                                 </div>
                                 <div class="witness mb-3 col-md-3">
                                     <label for="witness_contact_0" class="form-label">Contact Number</label>
-                                    <input type="tel" class="form-control" id="witness_contact_0" name="witnesses[0][contact]">
+                                    <input type="tel" class="form-control" id="witness_contact_0" name="witnesses[0][contact]" value="{{ old('witnesses.0.contact') }}">
                                 </div>
                                 <div class="witness mb-3 col-md-3">
                                     <label for="witness_email_0" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="witness_email_0" name="witnesses[0][email]">
+                                    <input type="email" class="form-control" id="witness_email_0" name="witnesses[0][email]" value="{{ old('witnesses.0.email') }}">
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center justify-content-center">
                                     <button type="button" class="btn btn-danger delete-witness">Delete</button>
@@ -193,14 +206,19 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">Electronic Signature Agreement</h5>
-                        <p>By checking the "I agree" box below, you agree and acknowledge that 1) your application will not be signed in the sense of a traditional paper document, 2) by signing in this alternate manner, you authorize your electronic signature to be valid and binding upon you to the same force and effect as a handwritten signature, and 3) you may still be required to provide a traditional signature at a later date.</p>
+                        <p>By checking the "I agree" box below, you agree and acknowledge that:</p>
+                        <ol>
+                            <li>Your application will not be signed in the sense of a traditional paper document.</li>
+                            <li>By signing in this alternate manner, you authorize your electronic signature to be valid and binding upon you to the same force and effect as a handwritten signature.</li>
+                            <li>You may still be required to provide a traditional signature at a later date.</li>
+                        </ol>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="signature_agreement" name="signature_agreement" required>
+                            <input class="form-check-input" type="checkbox" id="signature_agreement" name="signature_agreement" {{ old('signature_agreement') ? 'checked' : '' }} required>
                             <label class="form-check-label" for="signature_agreement">I agree</label>
                         </div>
                         <div class="mb-3" id="signature_div" style="display: none;">
                             <label for="signature" class="form-label">Electronic Signature</label>
-                            <input type="text" class="form-control" id="signature" name="signature">
+                            <input type="text" class="form-control" id="signature" name="signature" value="{{ old('signature') }}">
                         </div>
                     </div>
                 </div>
@@ -322,6 +340,16 @@
       } else {
         signatureDiv.style.display = 'none';
         document.getElementById('signature').value = ''; // Clear the signature input
+      }
+    });
+
+    document.getElementById('filing_person').addEventListener('change', function() {
+      var customFilingPersonDiv = document.getElementById('custom_filing_person_div');
+      if (this.value === 'other') {
+        customFilingPersonDiv.style.display = 'block';
+      } else {
+        customFilingPersonDiv.style.display = 'none';
+        document.getElementById('custom_filing_person').value = ''; // Clear the custom filing person input
       }
     });
 </script>

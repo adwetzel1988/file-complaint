@@ -43,10 +43,16 @@ class ComplaintController extends Controller
             'witnesses.*.contact' => 'nullable|string|max:255',
             'witnesses.*.email' => 'nullable|email|max:255',
             'signature' => 'required|string|max:255',
+            'filing_person' => 'required|string|max:255',
+            'custom_filing_person' => 'nullable|string|max:255', // Add this line
         ]);
 
         if (strtolower($validatedData['complaint_type']) === 'others') {
             $validatedData['complaint_type'] = $validatedData['custom_type'];
+        }
+
+        if ($validatedData['filing_person'] === 'other') {
+            $validatedData['filing_person'] = $validatedData['custom_filing_person'];
         }
 
         if (Auth::check()) {
@@ -90,6 +96,7 @@ class ComplaintController extends Controller
             'complaint_type' => $validatedData['complaint_type'],
             'status' => 'pending',
             'signature' => $validatedData['signature'],
+            'filing_person' => $validatedData['filing_person'],
         ]);
 
         Officer::create([
