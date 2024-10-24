@@ -71,6 +71,34 @@
 
     <div class="card mb-4">
         <div class="card-body">
+            <h2 class="card-title mb-3">Submit Required Documents</h2>
+            <form action="{{ route('complaints.upload', $complaint) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label for="documents" class="form-label">Upload Documents</label>
+                    <input type="file" class="form-control" id="documents" name="documents[]" multiple required>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title mb-3">Book a Meeting</h2>
+            <form action="{{ route('complaints.book-meeting', $complaint) }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="meeting_date" class="form-label">Meeting Date</label>
+                    <input type="datetime-local" class="form-control" style="width: 350px" id="meeting_date" name="meeting_date" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Book Meeting</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
             <h2 class="card-title mb-3">Messages</h2>
             @foreach($complaint->messages as $message)
                 <div class="card mb-2">

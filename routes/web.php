@@ -48,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('complaints', [ComplaintController::class, 'index'])->name('complaints.index');
     Route::get('complaints/{complaint}', [ComplaintController::class, 'show'])->name('complaints.show');
     Route::post('complaints/{complaint}/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::post('/complaints/{complaint}/upload', [ComplaintController::class, 'uploadDocuments'])->name('complaints.upload');
+    Route::post('/complaints/{complaint}/book-meeting', [ComplaintController::class, 'bookMeeting'])->name('complaints.book-meeting');
 });
 
 // Admin and Subadmin routes

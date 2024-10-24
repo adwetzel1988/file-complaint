@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendBooking;
 use App\Models\Complaint;
 use App\Models\Officer;
 use App\Models\User;
+use App\Notifications\MeetingBookingRequest;
 use App\Notifications\NewComplaintSubmitted;
+use App\Notifications\RequiredDocumentUploaded;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Spatie\IcalendarGenerator\Components\Calendar;
+use Spatie\IcalendarGenerator\Components\Event;
 
 class ComplaintController extends Controller
 {
@@ -159,7 +167,7 @@ class ComplaintController extends Controller
 
         return view('complaints.results', [
             'results' => $results,
-            'query' => $query23
+            'query' => $query
         ]);
     }
 
@@ -169,5 +177,59 @@ class ComplaintController extends Controller
         foreach ($admins as $admin) {
             $admin->notify(new NewComplaintSubmitted($complaint));
         }
+    }
+
+    public function uploadDocuments(Request $request, Complaint $complaint)
+    {
+        $request->validate([
+            'documents.*' => 'required|file|mimes:jpg,jpeg,png,gif,mp4,pdf,doc,docx|max:10240',
+        ]);
+
+        if ($request->hasFile('documents')) {
+            foreach ($request->file('documents') as $document) {
+                $path = $document->store('public');
+                $complaint->attachments()->create([
+                    'file_path' => $path,
+                    'file_name' => $complaint->id . '-' . $document->getClientOriginalName(),
+                ]);
+            }
+        }
+
+        // Notify admins about the meeting booking
+        $admins = User::where('role', 'like', "%admin%")->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new RequiredDocumentUploaded($complaint));
+        }
+
+        return redirect()->route('complaints.show', $complaint)->with('success', 'Documents uploaded successfully.');
+    }
+
+    public function bookMeeting(Request $request, Complaint $complaint)
+    {
+        $request->validate([
+            'meeting_date' => 'required|date|after:now',
+        ]);
+
+        $meetingDate = Carbon::parse($request->input('meeting_date'));
+
+        $event = Calendar::create('Booking')
+            ->event(Event::create("Meeting for Complaint #: $complaint->complaint_number")
+                ->startsAt($meetingDate)
+                ->endsAt($meetingDate->addMinutes(30))
+            )
+            ->get();
+
+        // Notify admins about the meeting booking
+        $users = User::where('role', 'like', "%admin%")->get();
+
+        // add the current user to the list of admins to be notified
+        $users[] = $complaint->user;
+
+        foreach ($users as $admin) {
+            $admin->notify(new MeetingBookingRequest($complaint, $meetingDate, $event));
+        }
+
+
+        return redirect()->route('complaints.show', $complaint)->with('success', 'Meeting booked successfully.');
     }
 }
